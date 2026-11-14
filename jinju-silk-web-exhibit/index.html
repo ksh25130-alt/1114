@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>진주실크박물관 디지털 인터랙티브 웹전시</title>
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <!-- Main CSS -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Three.js & OrbitControls -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+
+  <!-- ========================================== -->
+  <!-- 1. Header & Navigation (1번 공식 로고 반영) -->
+  <!-- ========================================== -->
+  <header class="header">
+    <div class="brand-logo" id="nav-brand-home">
+      <img src="assets/jinju_silk_logo.png" alt="진주실크박물관 로고" class="brand-logo-img">
+    </div>
+
+    <nav class="nav-tabs">
+      <button class="nav-btn active" data-target="view-home">
+        <span>🏛️ 전체 전시</span>
+      </button>
+      <button class="nav-btn" data-target="view-simulator">
+        <span>✨ 1관: 3D 가상 피팅 (2030)</span>
+      </button>
+      <button class="nav-btn" data-target="view-playground">
+        <span>🐛 2관: 누에와 비단이 (10대)</span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. Main Portal / Home View                 -->
+  <!-- ========================================== -->
+  <main id="view-home" class="view-container active-view">
+    <section class="home-hero">
+      <div class="hero-tag">2026 TIER TARGETED INTERACTIVE EXHIBITION</div>
+      <h2 class="hero-title">천년의 결, <span>빛과 실로 짓는 미래</span></h2>
+      <p class="hero-desc">
+        진주실크박물관이 관람객의 눈높이에 맞춘 두 가지 인터랙티브 디지털 웹전시를 선보입니다.<br>
+        20~30대 청년을 위한 하이엔드 3D 실크 시뮬레이터와 10대 청소년을 위한 캐릭터 놀이터를 지금 경험해보세요.
+      </p>
+
+      <div class="exhibit-cards">
+        <!-- Exhibit 1 Card -->
+        <article class="exhibit-card" id="card-to-simulator">
+          <div class="card-img-wrap">
+            <span class="card-badge tag-youth">20~30대 청년층 타겟</span>
+            <img src="assets/simulator_ref.png" alt="비단실의 궤적: 실크 아뜰리에 3D 인터랙티브 가상 피팅 시뮬레이터">
+          </div>
+          <div class="card-body">
+            <span class="card-target">AURA OF SILK : VIRTUAL ATELIER</span>
+            <h3 class="card-title">《비단실의 궤적: 실크 아뜰리에 3D 인터랙티브 가상 피팅 시뮬레이터》</h3>
+            <p class="card-desc">
+              빛과 실을 조합하여 완성하는 나만의 능동형 실크 패션. 원단 직조, 천연 염색, 진주 전통 문양을 선택하고 360도 3D 피팅과 룩북을 소장해보세요.
+            </p>
+            <div class="card-btn">
+              <span>3D 가상 피팅 시작하기</span>
+              <span>→</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- Exhibit 2 Card -->
+        <article class="exhibit-card" id="card-to-playground">
+          <div class="card-img-wrap">
+            <span class="card-badge tag-kid">10대 & 가족 관람객 타겟</span>
+            <img src="assets/silky_bidani.jpg" alt="누에와 실크의 놀이터: 비단실을 뽑는 누에와 비단이의 일상 장면">
+          </div>
+          <div class="card-body">
+            <span class="card-target">SILK WONDERLAND : BIDANI & SILKY</span>
+            <h3 class="card-title">《누에와 실크의 놀이터: 비단실을 뽑는 누에와 비단이의 일상 장면》</h3>
+            <p class="card-desc">
+              귀여운 누에 요정 '실이'와 당찬 한복 소녀 '비단이' 중 나의 도슨트를 골라보세요! 뽕잎 주기, 물레 돌리기, 천연 염색 미션을 통해 명예 장인 인증서를 받아요.
+            </p>
+            <div class="card-btn">
+              <span>캐릭터 놀이터 입장하기</span>
+              <span>→</span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 3. Exhibit 1: 3D Fitting Simulator         -->
+  <!-- ========================================== -->
+  <section id="view-simulator" class="view-container">
+    <div class="simulator-view">
+      <!-- Top Sim Header (동양풍 현판) -->
+      <div class="sim-header">
+        <div class="sim-title-group">
+          <h2><span>絲</span> 진주실크 아뜰리에 3D 가상 피팅</h2>
+          <p>비단실의 궤적: 나만의 진주실크 한복 & 드레스 시뮬레이터</p>
+        </div>
+        <div class="sim-meta-tag">
+          <div>전시: <b>천년의 결, 진주실크</b></div>
+          <div>공방: <b>진주 전통 장인 아뜰리에</b></div>
+          <div>실크 렌더링: <b>PBR 고광택 비단 (High)</b></div>
+        </div>
+      </div>
+
+      <!-- Left Customization Toolbar (동양 팰리스 풍 툴바) -->
+      <aside class="sim-custom-toolbar">
+        <!-- 1. 의상 실루엣 선택 -->
+        <div class="custom-group">
+          <div class="custom-title">
+            <span>👘</span>
+            <span>의상 실루엣 스타일 (Style)</span>
+          </div>
+          <div class="style-toggle-wrap">
+            <button class="style-toggle-btn active" data-style="hanbok">
+              <span>👘</span>
+              <span>전통 모던 한복</span>
+            </button>
+            <button class="style-toggle-btn" data-style="dress">
+              <span>👗</span>
+              <span>서양 드레스</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. ★ 저고리와 치마 색상 따로 지정하기 (서양 드레스일 때 자동 숨김) -->
+        <div class="custom-group">
+          <div class="custom-title">
+            <span>🎨</span>
+            <span>비단 색채 따로 지정 (Color Custom)</span>
+          </div>
+          <div class="part-color-toggle" id="part-color-toggle-box">
+            <button class="part-btn active" data-target="chima">치마 색상 변경</button>
+            <button class="part-btn" data-target="jeogori">저고리 색상 변경</button>
+          </div>
+          <!-- 7번 사진 해결: 가로 7개 2줄 그리드 -->
+          <div class="color-palette-grid">
+            <div class="color-dot active" style="background: #1b2d4f;" data-color="1b2d4f" data-name="심해 인디고 (Deep Navy)" title="심해 인디고"></div>
+            <div class="color-dot" style="background: #fdfbf7; border-color: #bbb;" data-color="fdfbf7" data-name="백옥 미색 (Ivory Silk)" title="백옥 미색"></div>
+            <div class="color-dot" style="background: #88c5ba;" data-color="88c5ba" data-name="고운 비취 옥빛" title="고운 비취 옥빛"></div>
+            <div class="color-dot" style="background: #e62b77;" data-color="e62b77" data-name="진주 마젠타 (Jinju Magenta)" title="진주 마젠타"></div>
+            <div class="color-dot" style="background: #f48fb1;" data-color="f48fb1" data-name="홍화 연분홍 (Dusty Rose)" title="홍화 연분홍"></div>
+            <div class="color-dot" style="background: #c2185b;" data-color="c2185b" data-name="동백 진홍 (Deep Crimson)" title="동백 진홍"></div>
+            <div class="color-dot" style="background: #ffc107;" data-color="ffc107" data-name="치자 황금빛 (Golden Yellow)" title="치자 황금빛"></div>
+            <div class="color-dot" style="background: #ff9800;" data-color="ff9800" data-name="살구 호박색 (Peach Amber)" title="살구 호박색"></div>
+            <div class="color-dot" style="background: #8bc34a;" data-color="8bc34a" data-name="뽕잎 연두 (Spring Green)" title="뽕잎 연두"></div>
+            <div class="color-dot" style="background: #03a9f4;" data-color="03a9f4" data-name="남강 하늘빛 (Namgang Cyan)" title="남강 하늘빛"></div>
+            <div class="color-dot" style="background: #1976d2;" data-color="1976d2" data-name="로열 코발트 (Royal Blue)" title="로열 코발트"></div>
+            <div class="color-dot" style="background: #673ab7;" data-color="673ab7" data-name="오색 바이올렛 (Imperial Violet)" title="오색 바이올렛"></div>
+            <div class="color-dot" style="background: #ba68c8;" data-color="ba68c8" data-name="실크 라벤더 (Silk Lavender)" title="실크 라벤더"></div>
+            <div class="color-dot" style="background: #212529;" data-color="212529" data-name="흑진주 (Obsidian Black)" title="흑진주"></div>
+          </div>
+        </div>
+
+        <!-- 3. 직조 스타일 선택 (Weave Style) -->
+        <div class="custom-group">
+          <div class="custom-title">
+            <span>🧵</span>
+            <span>직조 조직 스타일 (Weave)</span>
+          </div>
+          <select id="select-weave" class="pattern-select">
+            <option value="smooth">매끄러운 궁중 비단 (기본 단색 솔리드)</option>
+            <option value="organza">진주 노방 오간자 (은은한 실크)</option>
+            <option value="basket">[박물관] 바구니 조직 (Basket Weave)</option>
+            <option value="matt_rib">[박물관] 매트 골 조직 (Matt Rib)</option>
+            <option value="houndstooth">[박물관] 하운드투스 조직 (Houndstooth)</option>
+            <option value="herringbone">[박물관] 헤링본 조직 (Herringbone)</option>
+            <option value="oxford">[박물관] 로열 옥스퍼드 조직 (Oxford)</option>
+          </select>
+        </div>
+
+        <!-- 4. 문양 스타일 선택 (Pattern Motif) -->
+        <div class="custom-group">
+          <div class="custom-title">
+            <span>🌸</span>
+            <span>전통 문양 스타일 (Motif Pattern)</span>
+          </div>
+          <select id="select-pattern" class="pattern-select">
+            <option value="none">문양 없음 (순수 직조 솔리드)</option>
+            <option value="floral">[전시 비단] 은은한 꽃자수 (Floral Silk)</option>
+            <option value="plum">[진주 상징] 진주 매화 꽃잎문 (Plum Blossom)</option>
+            <option value="chokseok">[진주 역사] 촉석루 처마선 (Pavilion Gable)</option>
+            <option value="river">[진주 명소] 남강 유려한 물결문 (Namgang Wave)</option>
+          </select>
+        </div>
+
+        <!-- 5. ★ 3번째 사진: 매듭 장식 추가하기 (드래그 앤 드롭 & 크기 조절) -->
+        <div class="custom-group">
+          <div class="custom-title">
+            <span>🪢</span>
+            <span>매듭 장식 추가하기 (Drag & Drop)</span>
+          </div>
+          <p class="maedeup-box-desc">
+            마음에 드는 매듭을 <b>3D 의상 위로 드래그</b>하여 원하는 위치에 달아보세요!
+          </p>
+          <div class="maedeup-chips-grid">
+            <div class="maedeup-chip" draggable="true" data-maedeup="gukwa" title="드래그하여 의상에 부착">
+              <span>🏵️</span>
+              <span>국화 매듭</span>
+            </div>
+            <div class="maedeup-chip" draggable="true" data-maedeup="nabi" title="드래그하여 의상에 부착">
+              <span>🦋</span>
+              <span>나비 매듭</span>
+            </div>
+            <div class="maedeup-chip" draggable="true" data-maedeup="maehwa" title="드래그하여 의상에 부착">
+              <span>🌸</span>
+              <span>매화 매듭</span>
+            </div>
+            <div class="maedeup-chip" draggable="true" data-maedeup="dorae" title="드래그하여 의상에 부착">
+              <span>🌿</span>
+              <span>도래 매듭</span>
+            </div>
+            <div class="maedeup-chip" draggable="true" data-maedeup="ribbon" title="드래그하여 의상에 부착" style="grid-column: span 2;">
+              <span>🎀</span>
+              <span>클래식 비단 리본 매듭</span>
+            </div>
+          </div>
+
+          <!-- 매듭 크기 조절기 -->
+          <div class="maedeup-scale-wrap">
+            <span class="maedeup-scale-label">매듭 크기 조절:</span>
+            <input type="range" id="slider-maedeup-scale" min="0.6" max="1.8" step="0.1" value="1.0" class="prop-slider">
+            <span id="maedeup-scale-val" style="font-size: 0.72rem; color: #f3e5ab;">100%</span>
+          </div>
+
+          <!-- 부착된 매듭 목록 -->
+          <div class="attached-maedeup-list" id="attached-maedeup-box">
+            <span style="font-size: 0.72rem; color: #9fb3ab;">부착된 매듭 없음 (원하는 매듭을 드래그해 놓으세요)</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Central 3D Canvas Area -->
+      <div class="canvas-wrapper" id="canvas-container">
+        <canvas id="three-canvas"></canvas>
+      </div>
+
+      <!-- Right Properties Panel (동양풍) -->
+      <aside class="sim-side-panel">
+        <div class="panel-section-title">MATERIAL PROPERTIES</div>
+        <div class="prop-list">
+          <div class="prop-item">
+            <span>Style</span>
+            <span id="val-style" style="color: #f3e5ab;">전통 모던 한복 (저고리+치마)</span>
+          </div>
+          <div class="prop-item">
+            <span>Chima Color</span>
+            <span id="val-color-chima">고운 비취 옥빛</span>
+          </div>
+          <div class="prop-item">
+            <span>Jeogori Color</span>
+            <span id="val-color-jeogori">백옥 미색 (Pure Pearl)</span>
+          </div>
+          <div class="prop-item">
+            <span>Weave</span>
+            <span id="val-fabric">단색 매끄러운 비단</span>
+          </div>
+          <div class="prop-item">
+            <span>Motif</span>
+            <span id="val-pattern">문양 없음 (솔리드)</span>
+          </div>
+          <div class="prop-item">
+            <span>Luminescence</span>
+            <span style="color: #ffd05b;">Embedded Micro LEDs (Active)</span>
+          </div>
+          <div class="prop-item">
+            <span>Physics</span>
+            <span style="color: #73c8a9;">역동적 치마 플레어 (Active)</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Bottom Floating Controls -->
+      <div class="sim-controls-bar">
+        <button class="ctrl-btn active" id="btn-rotate">
+          <span>🔄</span>
+          <span>ROTATE 360°</span>
+        </button>
+        <button class="ctrl-btn" id="btn-zoom">
+          <span>🔍</span>
+          <span>ZOOM RESET</span>
+        </button>
+        <button class="ctrl-btn" id="btn-lighting">
+          <span>💡</span>
+          <span id="btn-lighting-text">조명: 박물관 갤러리</span>
+        </button>
+        <button class="ctrl-btn btn-snapshot" id="btn-save-lookbook">
+          <span>📸</span>
+          <span>나만의 실크 룩북 소장하기</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 4. Exhibit 2: Kid & Teen Playground        -->
+  <!-- ========================================== -->
+  <section id="view-playground" class="view-container">
+    <div class="playground-view">
+      <!-- Banner with uploaded illustration -->
+      <div class="kid-banner">
+        <img src="assets/silky_bidani.jpg" alt="누에와 비단이 일러스트" class="kid-banner-img">
+        <div class="kid-banner-text">
+          <div class="kid-tag">10대 청소년 & 가족 맞춤형 체험</div>
+          <h2 class="kid-banner-title">《누에와 실크의 놀이터: 비단실을 뽑는 누에와 비단이의 일상 장면》</h2>
+          <p class="kid-banner-desc">
+            비단실을 뽑는 귀여운 누에 요정 <b>'실이'</b>와 밝고 씩씩한 한복 소녀 <b>'비단이'</b>가 박물관 친구들을 맞이해요!<br>
+            원하는 도슨트 친구를 선택해 해설을 듣고, 터치 미션을 완료해 '명예 실크 장인 임명장'을 받아보세요.
+          </p>
+        </div>
+      </div>
+
+      <!-- Character Selector Grid (6, 7번 사진 실제 마스코트 적용 & 겹침 해결) -->
+      <div class="char-selection-title">
+        <h3>오늘 함께할 도슨트 친구를 선택해 보세요!</h3>
+      </div>
+      <div class="char-cards-grid">
+        <!-- Silky Card (6번 마스코트) -->
+        <div class="char-card selected selected-silky" id="char-card-silky">
+          <div class="char-avatar">
+            <img src="assets/silky_mascot.png" alt="누에 요정 실이">
+          </div>
+          <div class="char-name">누에 요정 「실이」</div>
+          <div class="char-role">생태 & 비단실 뽑기 장인</div>
+          <div class="char-dialogue">
+            “뽕잎을 냠냠 먹고 튼튼하게 자라 세상에서 가장 부드러운 황금빛 비단실을 뽑는 게 제일 행복해! 나랑 같이 비단실 뽑으러 가자!”
+          </div>
+        </div>
+
+        <!-- Bidani Card (7번 마스코트) -->
+        <div class="char-card" id="char-card-bidani">
+          <div class="char-avatar bidani-avatar">
+            <img src="assets/bidani_mascot.jpg" alt="한복 소녀 비단이">
+          </div>
+          <div class="char-name">한복 소녀 「비단이」</div>
+          <div class="char-role">실크 활용 & 문화 가이드</div>
+          <div class="char-dialogue">
+            “오색 비단 리본을 휘날리며 진주 비단이 어디에 쓰이고 얼마나 귀한 보물인지 알려줄게! 왕실 한복부터 현대 드레스까지 비단의 멋을 구경해봐!”
+          </div>
+        </div>
+      </div>
+
+      <!-- Selected Guide Speech Bubble -->
+      <div style="background: #ffffff; border-radius: 18px; padding: 1.2rem 1.6rem; border: 2px solid #ecdccb; margin-bottom: 2rem; display: flex; align-items: center; gap: 1.2rem; box-shadow: 0 6px 20px rgba(0,0,0,0.04);">
+        <div style="width: 55px; height: 55px; border-radius: 50%; overflow: hidden; border: 2px solid #d4af37; flex-shrink: 0;">
+          <img src="assets/silky_mascot.png" id="active-guide-avatar" style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <div>
+          <div style="font-size: 0.85rem; font-weight: 800; color: #ff6b8b;" id="active-guide-name">포근포근 누에 요정 「실이」 (생태 & 실뽑기 장인)</div>
+          <div style="font-size: 0.95rem; font-weight: 600; color: #3b3026; margin-top: 2px;" id="active-guide-speech">
+            “안녕 친구야! 나는 뽕잎을 냠냠 먹고 고운 비단실을 뽑는 실이야! 나랑 같이 뽕잎 먹고 신기한 물레 돌려볼래?”
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Missions -->
+      <div class="missions-section">
+        <div class="mission-step-bar">
+          <div class="step-item active" data-step="1">
+            <div class="step-num">1</div>
+            <div class="step-title" id="step-title-1">뽕잎 먹이기</div>
+          </div>
+          <div class="step-item" data-step="2">
+            <div class="step-num">2</div>
+            <div class="step-title" id="step-title-2">전통 물레 실뽑기</div>
+          </div>
+          <div class="step-item" data-step="3">
+            <div class="step-num">3</div>
+            <div class="step-title" id="step-title-3">알록달록 천연염색</div>
+          </div>
+        </div>
+
+        <div id="mission-game-box" class="mission-game-box">
+          <!-- Dynamically inserted by playground.js -->
+        </div>
+      </div>
+
+      <!-- Mobile QR Docent Simulation Cards -->
+      <div style="background: #ffffff; border-radius: 20px; padding: 1.8rem; border: 2px solid #ecdccb; margin-bottom: 2rem;">
+        <div style="font-size: 1.15rem; font-weight: 800; color: #2e261f; margin-bottom: 0.4rem;">
+          📱 모바일 박물관 QR 해설 체험 (가상 스캔)
+        </div>
+        <p style="font-size: 0.88rem; color: #7a6e63; margin-bottom: 1.2rem;">
+          실제 박물관 전시장 쇼케이스의 유물 태그를 스마트폰으로 비추면 내 도슨트 친구가 해설을 들려줘요.
+        </p>
+
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button class="ctrl-btn qr-artifact-btn" data-artifact="ex-1" style="background: #f7ede2; border-color: #dfd0be; color: #3b3026;">
+            <span>📷 [QR 태그 01] 전통 베틀 해설 듣기</span>
+          </button>
+          <button class="ctrl-btn qr-artifact-btn" data-artifact="ex-2" style="background: #f7ede2; border-color: #dfd0be; color: #3b3026;">
+            <span>📷 [QR 태그 02] 진주실크 오색 타래 해설 듣기</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Certificate Action -->
+      <div class="cert-section">
+        <div style="margin-bottom: 0.8rem; font-weight: 600; color: #55483d;">
+          나의 이름을 입력하고 비단이와 실이가 수여하는 임명장을 받아보세요!
+        </div>
+        <input type="text" id="cert-user-name" placeholder="이름을 입력하세요 (예: 김진주)" style="padding: 0.75rem 1.2rem; border-radius: 25px; border: 2px solid #ecd580; font-size: 0.95rem; margin-right: 0.5rem; outline: none; text-align: center; max-width: 260px;">
+        <button class="btn-cert" id="btn-get-cert">
+          <span>📜</span>
+          <span>명예 진주실크 장인 임명장 발급받기</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- 5. Modals                                  -->
+  <!-- ========================================== -->
+
+  <!-- Lookbook Modal (Exhibit 1) -->
+  <div class="modal-overlay" id="lookbook-modal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="document.getElementById('lookbook-modal').style.display='none'">✕</button>
+      <h3 style="color: #d4af37; font-size: 1.2rem; margin-bottom: 0.4rem;">실크 아뜰리에 3D 룩북</h3>
+      <p style="font-size: 0.82rem; color: #8b949e;">관람객님이 직접 디자인한 진주실크 가상 의상 카드입니다.</p>
+      
+      <img id="lookbook-preview-img" src="" alt="룩북 미리보기" class="modal-preview-img">
+      
+      <div style="display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem;">
+        <a id="lookbook-download-btn" href="#" class="ctrl-btn btn-snapshot" style="text-decoration: none;">
+          <span>💾</span>
+          <span>고화질 룩북 저장</span>
+        </a>
+        <button class="ctrl-btn" onclick="document.getElementById('lookbook-modal').style.display='none'">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Docent Modal (Exhibit 2) -->
+  <div class="modal-overlay" id="docent-modal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="document.getElementById('docent-modal').style.display='none'">✕</button>
+      <span id="docent-char-tag" style="background: #ffe3ea; color: #ff477e; font-size: 0.78rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 12px;">도슨트 해설</span>
+      <h3 id="docent-title" style="font-size: 1.25rem; margin: 0.6rem 0; color: #2e261f;">유물 해설</h3>
+      <p id="docent-desc" style="font-size: 0.92rem; color: #55483d; line-height: 1.6; text-align: left; background: #faf7f2; padding: 1.2rem; border-radius: 14px; border: 1px solid #ebd9c7; margin: 1rem 0;">
+        해설 내용
+      </p>
+      <button class="wheel-btn" onclick="document.getElementById('docent-modal').style.display='none'" style="width: 100%;">이해했어요!</button>
+    </div>
+  </div>
+
+  <!-- Certificate Modal (Exhibit 2) -->
+  <div class="modal-overlay" id="cert-modal">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="document.getElementById('cert-modal').style.display='none'">✕</button>
+      <h3 style="color: #b8860b; font-size: 1.25rem; margin-bottom: 0.4rem;">축하합니다! 장인 임명장 발급 완료</h3>
+      <p style="font-size: 0.82rem; color: #7a6e63;">진주실크의 소중한 가치를 함께 지켜갈 명예 장인입니다.</p>
+
+      <img id="cert-preview-img" src="" alt="임명장 미리보기" class="modal-preview-img" style="border: 2px solid #ecd580;">
+
+      <div style="display: flex; gap: 0.8rem; justify-content: center; margin-top: 1rem;">
+        <a id="cert-download-link" href="#" class="wheel-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.5rem;">
+          <span>📥</span>
+          <span>임명장 이미지 다운로드</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 6. Scripts                                 -->
+  <!-- ========================================== -->
+  <script src="js/simulator-3d.js"></script>
+  <script src="js/playground.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // 뷰 탭 전환 컨트롤러
+      const navButtons = document.querySelectorAll('.nav-btn');
+      const viewContainers = document.querySelectorAll('.view-container');
+      let simulatorInstance = null;
+      let playgroundInstance = null;
+
+      function switchView(targetId) {
+        // 네비게이션 버튼 활성화 상태 갱신
+        navButtons.forEach(btn => {
+          if (btn.dataset.target === targetId) btn.classList.add('active');
+          else btn.classList.remove('active');
+        });
+
+        // 뷰 컨테이너 전환
+        viewContainers.forEach(container => {
+          if (container.id === targetId) {
+            container.classList.add('active-view');
+          } else {
+            container.classList.remove('active-view');
+          }
+        });
+
+        // 테마 전환 (1관 다크 모던 vs 2관 밝은 파스텔 키즈 테마)
+        if (targetId === 'view-playground') {
+          document.body.classList.add('theme-kid');
+        } else {
+          document.body.classList.remove('theme-kid');
+        }
+
+        // 인스턴스 지연 초기화
+        if (targetId === 'view-simulator' && !simulatorInstance) {
+          setTimeout(() => {
+            simulatorInstance = new SilkSimulator();
+          }, 50);
+        } else if (targetId === 'view-simulator' && simulatorInstance) {
+          simulatorInstance.onWindowResize();
+        }
+
+        if (targetId === 'view-playground' && !playgroundInstance) {
+          playgroundInstance = new SilkPlayground();
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      navButtons.forEach(btn => {
+        btn.addEventListener('click', () => switchView(btn.dataset.target));
+      });
+
+      // 홈 배너 카드 클릭 이벤트
+      document.getElementById('card-to-simulator')?.addEventListener('click', () => {
+        switchView('view-simulator');
+      });
+
+      document.getElementById('card-to-playground')?.addEventListener('click', () => {
+        switchView('view-playground');
+      });
+
+      document.getElementById('nav-brand-home')?.addEventListener('click', () => {
+        switchView('view-home');
+      });
+    });
+  </script>
+</body>
+</html>
